@@ -17,7 +17,28 @@ router.get("/gist", gistCard);
 
 app.use("/api", router);
 
-const port = process.env.PORT || process.env.port || 9000;
-app.listen(port, "0.0.0.0", () => {
-  console.log(`Server running on port ${port}`);
-});
+// Start Express server on a port
+const port = 3000;
+app.listen(port);
+
+// For Cloudflare Workers - use httpServerHandler
+let httpServerHandler;
+try {
+  // Try to import httpServerHandler for Cloudflare Workers
+  const cloudflareNode = await import("cloudflare:node");
+  httpServerHandler = cloudflareNode.httpServerHandler;
+} catch {
+  // Fallback for local development
+  httpServerHandler = null;
+}
+
+// Export for Cloudflare Workers
+export default httpServerHandler
+  ? httpServerHandler({ port })
+  : {
+      fetch() {
+        return new Response("Not running in Cloudflare Workers environment", {
+          status: 500,
+        });
+      },
+    };

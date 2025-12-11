@@ -1,7 +1,20 @@
 {
-  "name": "github-readme-stats",
-  "compatibility_date": "2025-12-11",
-  "compatibility_flags": ["nodejs_compat"],
-  "main": "express.js",
-  "workers_dev": true,
+	"name": "github-readme-stats",
+	"compatibility_date": "2025-12-11",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"main": "express.js",
+	"workers_dev": true,
+	"vars": {
+		"WHITELIST": "caphefalumi"
+	},
+    "observability": {
+        "logs": {
+        "enabled": false,
+        "head_sampling_rate": 1,
+        "invocation_logs": true,
+        "persist": true
+        }
+    }
 }
